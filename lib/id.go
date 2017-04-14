@@ -43,8 +43,11 @@ func (p *Plugin) Run() {
 			if qm.SourceID == myId {
 				continue
 			}
+			if len(inputs) != 0 && !qutils.IsLastSource(inputs, qm.Source) {
+				continue
+			}
 			qm.Type = "filter"
-			qm.Source = strings.Join(append(strings.Split(qm.Source, "->"), "id"), "->")
+			qm.Source = p.Name
 			qm.SourceID = myId
 			p.QChan.Data.Send(qm)
 		}
