@@ -36,7 +36,7 @@ func New(qChan qtypes.QChan, cfg config.Config, name string) Plugin {
 
 // Run fetches everything from the Data channel and flushes it to stdout
 func (p *Plugin) Run() {
-	p.Log("info", fmt.Sprintf("Start id filter '%s'", p.Name))
+	p.Log("info", fmt.Sprintf("Start filter v%s", p.Version))
 	myId := qutils.GetGID()
 	bg := p.QChan.Data.Join()
 	inputs := p.GetInputs()
