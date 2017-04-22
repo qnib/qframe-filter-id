@@ -2,14 +2,14 @@ package qframe_filter_id
 
 import (
 	"C"
-	"log"
+	"fmt"
 	"strings"
 
 
 	"github.com/qnib/qframe-types"
 	"github.com/qnib/qframe-utils"
 	"github.com/zpatrick/go-config"
-	"github.com/moby/moby/api/types/events"
+	"github.com/docker/docker/api/types/events"
 )
 
 const (
@@ -36,7 +36,7 @@ func New(qChan qtypes.QChan, cfg config.Config, name string) Plugin {
 
 // Run fetches everything from the Data channel and flushes it to stdout
 func (p *Plugin) Run() {
-	log.Println("[II] Start id filter '%s'", p.Name)
+	p.Log("info", fmt.Sprintf("Start id filter '%s'", p.Name))
 	myId := qutils.GetGID()
 	bg := p.QChan.Data.Join()
 	inputs := p.GetInputs()
@@ -62,6 +62,9 @@ func (p *Plugin) Run() {
 				if qutils.IsItem(p.sendBack, "docker-event") {
 					p.QChan.Back.Send(qm)
 				}
+			default:
+				continue
+				//p.Log("info", fmt.Sprintf("Data is %s", reflect.TypeOf(qm.Data)))
 			}
 
 		}
