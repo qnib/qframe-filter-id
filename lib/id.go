@@ -48,19 +48,13 @@ func (p *Plugin) Run() {
 				if qm.SourceID == myId {
 					continue
 				}
-				if len(inputs) != 0 && !qutils.IsInput(inputs, qm.Source) {
+				if len(inputs) != 0 && ! qutils.IsInput(inputs, qm.Source) {
 					continue
 				}
 				if qutils.IsItem(p.sendData, qm.Source) {
-					qm.Type = "filter"
-					qm.Source = p.Name
-					qm.SourceID = myId
 					p.QChan.Data.Send(qm)
 				}
 				if qutils.IsItem(p.sendBack, qm.Source) {
-					qm.Type = "filter"
-					qm.Source = p.Name
-					qm.SourceID = myId
 					p.QChan.Back.Send(qm)
 				}
 			}
