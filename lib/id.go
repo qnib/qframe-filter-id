@@ -52,6 +52,7 @@ func (p *Plugin) Run() {
 					continue
 				}
 				if qutils.IsItem(p.sendData, qm.Source) {
+					qm.SourceID = myId
 					p.QChan.Data.Send(qm)
 				}
 				if qutils.IsItem(p.sendBack, qm.Source) {
