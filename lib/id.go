@@ -13,6 +13,7 @@ import (
 const (
 	version   = "0.2.1"
 	pluginTyp = "filter"
+	pluginPkg = "id"
 )
 
 type Plugin struct {
@@ -24,7 +25,7 @@ type Plugin struct {
 
 func New(qChan qtypes.QChan, cfg config.Config, name string) Plugin {
 	p := Plugin{
-		Plugin: qtypes.NewNamedPlugin(qChan, cfg, pluginTyp, name, version),
+		Plugin: qtypes.NewNamedPlugin(qChan, cfg, pluginTyp, pluginPkg, name, version),
 		types:  []string{},
 	}
 	p.sendBack = strings.Split(p.CfgStringOr("send-back", ""), ",")
@@ -34,7 +35,7 @@ func New(qChan qtypes.QChan, cfg config.Config, name string) Plugin {
 
 // Run fetches everything from the Data channel and flushes it to stdout
 func (p *Plugin) Run() {
-	p.Log("info", fmt.Sprintf("Start filter v%s", p.Version))
+	p.Log("notice", fmt.Sprintf("Start filter v%s", p.Version))
 	myId := qutils.GetGID()
 	dc := p.QChan.Data.Join()
 	inputs := p.GetInputs()
